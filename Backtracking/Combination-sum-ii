@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<vector<int>> combinationSum2(vector<int>& arr, int target) {
+        int n=arr.size();
+        sort(arr.begin(),arr.end());
+        vector<int> dup;
+        vector<vector<int>> ans;
+        auto solve=[&](int i,int target,auto&& solve){
+            if(target==0){
+                ans.push_back(dup);
+                return ;
+            }
+            for(int in=i;in<n;in++)
+            {
+                if(in>i and arr[in]==arr[in-1]) continue;
+                if(arr[in]>target) break;
+                dup.push_back(arr[in]);
+                solve(in+1,target-arr[in],solve);
+                dup.pop_back();
+            }
+        };
+        solve(0,target,solve);
+        return ans;
+    }
+};
